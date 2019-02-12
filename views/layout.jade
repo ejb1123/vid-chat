@@ -1,0 +1,19 @@
+doctype html
+html
+  include ./header
+  body
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
+      a.navbar-brand(href='#') Navbar
+      button.navbar-toggler(aria-expanded='false', aria-controls='navbarColor01', aria-label='Toggle navigation', type='button', data-toggle='collapse', data-target='#navbarColor01')
+        span.navbar-toggler-icon
+      #navbarColor01.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link(href='#')
+              | Home 
+              span.sr-only (current)
+          li.nav-item
+            a.nav-link(href='#') Login
+          li.nav-item
+            a.nav-link(href='#') About
+    block content

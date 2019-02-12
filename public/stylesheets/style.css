@@ -1,0 +1,24 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+/* bottombar {
+
+} */
+.footer{
+  background:#662e8c;
+  margin-top:-100px;
+  height:100px;
+  color:#fff;
+  position:relative;
+  line-height:180%;
+  padding:0 10px;
+}
+.footer-video{
+  height: inherit;
+  width: inherit;
+}
