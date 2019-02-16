@@ -1,16 +1,20 @@
 import {User} from  "./User/user"
 import {Self} from "./User/self"
-import { funcs } from "./SocketManager"
-export class UserManager implements funcs {
-    userjoined(){};
-    userleft(){};
+import { UserConnectionEvents } from "./SocketManager"
+export class UserManager implements UserConnectionEvents {
+    selfCreated(): void {
+
+    }
+    userjoined(): void{};
+    userleft(): void{};
     Self: User;
     users: User[];
     adduser(user: User){
 
     }
-    createSelf(){
-        let s = new Self();
+    createSelf(): boolean{
+        this.Self = new Self();
+        return true;
     }
     constructor() {
         

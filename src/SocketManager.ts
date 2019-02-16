@@ -1,19 +1,22 @@
 import { connect } from "socket.io-client"
-let s:any;
+let s:SocketIOClient.Socket;
 
-export interface funcs{
+export interface UserConnectionEvents{
     userjoined():void;
     userleft():void;
 }
 
 export class SocketManager {
-    lfuncs: funcs;
-    constructor(functions: funcs) {
-        this.lfuncs = functions;
-        s = connect();
+    lfuncs: UserConnectionEvents;
+
+    constructor() {
+        s= connect();
     }
-    setnewuserjoinfunc(func: Function){
+
+    setUserConnectionEvents(functions: UserConnectionEvents){
+        this.lfuncs = functions;
         s.on("userjoined",this.lfuncs.userjoined);
         s.on("userleft",this.lfuncs.userleft);
     }
+
 }

@@ -1,6 +1,7 @@
 import { User } from "./user"
 export class Self extends User {
     getmedia(){
+        var t = this;
         var promise = navigator.mediaDevices.getUserMedia({
             audio:false,
             video:{
@@ -8,15 +9,15 @@ export class Self extends User {
                 height:720
             }
         })
-        var t = this;
         promise.then(function(mstream: MediaStream){
-           // this.mediastream=mstream;
            t.mediastream=mstream;
         })
         .catch((error:any)=>{
             console.log(error);
         });
     }
+    Email:string;
+
     constructor() {
         super();
         this.getmedia();
