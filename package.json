@@ -12,12 +12,14 @@
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
+    "jquery": "^3.3.1",
     "morgan": "~1.9.0",
     "peerjs": "^0.3.20",
     "pug": "^2.0.3",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.29",
     "@types/node": "^11.9.0",
     "@types/peerjs": "0.0.30",
     "@types/socket.io": "^2.1.2",
