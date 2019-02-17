@@ -1,3 +1,4 @@
+import { videoFooter } from "../footerbar";
 
 
 export class User {
@@ -5,6 +6,9 @@ export class User {
     wsid: string;
     peerid: string;
     mediastream: MediaStream;
+    footervideo(){
+        videoFooter.GetUserDiv(this)
+    }
     call()  {
         
     };

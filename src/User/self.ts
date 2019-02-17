@@ -1,5 +1,5 @@
 import { User } from "./user"
-import {Events as f} from "../event-manager"
+import {Events as f, Events} from "../event-manager"
 export class Self extends User {
     getmedia(){
         var t = this;
@@ -12,7 +12,7 @@ export class Self extends User {
         })
         promise.then(function(mstream: MediaStream){
             t.mediastream=mstream;
-            f.selfmadeEvent.post(t);
+            f.gotSelfMedia.post(t);
         })
         .catch((error:any)=>{
             console.log(error);
@@ -24,5 +24,10 @@ export class Self extends User {
         super();
         this.name="ej"
         this.getmedia();
+        Events.SelfCreated.post(this)
+        Events.connectedToPeerJSServers.attach((id:string)=>{
+            this.peerid=id;
+            console.log(`my id is ${this.peerid}`)
+        })
     }
 }

@@ -24,7 +24,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var io = require('socket.io')(server);
+var io = require('../socketio')(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -32,22 +32,22 @@ var io = require('socket.io')(server);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('newid',(name)=>{
-    console.log("new id " + name);
-    socket.broadcast.emit("incomingnewid",name);
-  });
-  socket.on('hello',function(peerid){
-    Users.push({
-      id:peerid,
-      wsid:null
-    });
-    console.log("user "+ peerid +" added");
-    if(Users.length!=1)
-      socket.emit('addexistingpeers',Users);
-  });
-});
+// io.on('connection', function(socket){
+//   console.log('a user connected');
+//   socket.on('newid',(name)=>{
+//     console.log("new id " + name);
+//     socket.broadcast.emit("incomingnewid",name);
+//   });
+//   socket.on('hello',function(peerid){
+//     Users.push({
+//       id:peerid,
+//       wsid:null
+//     });
+//     console.log("user "+ peerid +" added");
+//     if(Users.length!=1)
+//       socket.emit('addexistingpeers',Users);
+//   });
+// });
 /**
  * Normalize a port into a number, string, or false.
  */

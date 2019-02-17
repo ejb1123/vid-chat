@@ -21,4 +21,8 @@ a {
 .footer-video{
   height: inherit;
   width: inherit;
+  
+}
+.footer-video:hover{
+  cursor: pointer;
 }
