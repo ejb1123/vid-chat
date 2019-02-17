@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "es6",
         "inlineSourceMap": true,
-        "inlineSources": true
+        "inlineSources": true,
     },
     "include": [
         "src/**/*"

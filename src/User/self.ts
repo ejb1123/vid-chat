@@ -1,4 +1,5 @@
 import { User } from "./user"
+import {Events as f} from "../event-manager"
 export class Self extends User {
     getmedia(){
         var t = this;
@@ -10,7 +11,8 @@ export class Self extends User {
             }
         })
         promise.then(function(mstream: MediaStream){
-           t.mediastream=mstream;
+            t.mediastream=mstream;
+            f.selfmadeEvent.post(t);
         })
         .catch((error:any)=>{
             console.log(error);
@@ -20,6 +22,7 @@ export class Self extends User {
 
     constructor() {
         super();
+        this.name="ej"
         this.getmedia();
     }
 }
