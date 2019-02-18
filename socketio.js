@@ -10,7 +10,8 @@ module.exports = function (server) {
       users.push(JSON.parse(User))
       socket.emit('existingUsers',JSON.stringify(users));
       console.log("new id " + JSON.parse(User).peerid);
-      socket.broadcast.emit("userjoined", User);
+     // socket.broadcast.emit("userjoined", User);
+      
       socket.on("disconnect",()=>{
         for (let index = 0; index < users.length; index++) {
           const user = users[index];

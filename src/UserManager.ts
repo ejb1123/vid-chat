@@ -14,19 +14,26 @@ export class UserManager {
         })
         return luser;
     }
-    Self: User;
+    static Self: User;
     static users = new Collections.Set<User>();
     
+    addUsers(users:User[]){
+        for (let index = 0; index < users.length; index++) {
+            const user = users[index];
+            UserManager.users.add(user)
+            console.log(`adding user to users array ${user}`)
+        }
+    }
+
     addUser(user: User){
         console.log(`adding user to users array ${user}`)
         UserManager.users.add(user)
         Events.calluser.post(user);
-        // Events
-        //this.adduser(user)
+     
     }
 
     createSelf(resolve:any){
-        this.Self = new Self();
+        UserManager.Self = new Self();
         resolve()
     }
     constructor() {
