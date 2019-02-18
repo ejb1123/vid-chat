@@ -8,9 +8,20 @@ export interface selfmadeArgs{
 }
 export class Events{
   static selfmadeEvent: tsevents.AsyncEvent<Self> = new tsevents.AsyncEvent<Self>();
-  static userJoinedEvent: tsevents.AsyncEvent<User> = new tsevents.AsyncEvent<User>();
+  /**
+   * User joined the chat room
+   */
+  static CallNewUser: tsevents.AsyncEvent<User> = new tsevents.AsyncEvent<User>();
+  /**
+   * a new external user joined
+   */
+  static NewExistingUser: tsevents.AsyncEvent<User> = new tsevents.AsyncEvent<User>();
   static userLeftEvent: tsevents.AsyncEvent<User> = new tsevents.AsyncEvent<User>();
   static gotSelfMedia: tsevents.AsyncEvent<Self> = new tsevents.AsyncEvent<Self>();
   static SelfCreated: tsevents.AsyncEvent<Self> = new tsevents.AsyncEvent<Self>();
   static connectedToPeerJSServers: tsevents.AsyncEvent<string> = new tsevents.AsyncEvent<string>();
+  /**
+   * continue and join self user to the room
+   */
+  static JoinRoom: tsevents.AsyncEvent<User> = new tsevents.AsyncEvent<User>();
 }

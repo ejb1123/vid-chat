@@ -2,6 +2,7 @@ import { videoFooter } from "../footerbar";
 
 
 export class User {
+    mediaconnection:PeerJs.MediaConnection =null;
     name: string;
     wsid: string;
     peerid: string;
@@ -14,5 +15,6 @@ export class User {
     };
     
     constructor() {
+
     }
 }

@@ -28,6 +28,7 @@ export class Self extends User {
         Events.connectedToPeerJSServers.attach((id:string)=>{
             this.peerid=id;
             console.log(`my id is ${this.peerid}`)
+            Events.JoinRoom.post(this)
         })
     }
 }
