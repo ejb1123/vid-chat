@@ -14,9 +14,6 @@ export class UserManager {
         })
         return luser;
     }
-    selfCreated(): void {
-        
-    }
     Self: User;
     static users = new Collections.Set<User>();
     
@@ -28,11 +25,10 @@ export class UserManager {
         //this.adduser(user)
     }
 
-    createSelf(): boolean{
+    createSelf(resolve:any){
         this.Self = new Self();
-        return true;
+        resolve()
     }
     constructor() {
-        Events.NewExistingUser.attach(this.userJoined)
     }
 }

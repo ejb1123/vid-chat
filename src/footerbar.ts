@@ -20,24 +20,6 @@ export class videoFooter {
             globalvid.play();
         }
     }
-    static CreateUserDivbyid(UserID: string,stream:MediaStream) {
-        if (!videoFooter.doesthumbexist(UserID)) {
-            let newvid = document.createElement("video")
-            newvid.className = "footer-video"
-            newvid.id=`video-thumb-${UserID}`
-            newvid.srcObject = stream;
-            newvid.onclick=(ev: MouseEvent)=>{
-                videoFooter.setglobalvideo(<MediaStream>newvid.srcObject)
-            }
-            newvid.onloadedmetadata = (e) => {
-                newvid.play();
-            }
-            document.getElementById('thumbbar').append(newvid);
-        }
-        else {
-            throw ("vid already exits")
-        }
-    }
     static CreateUserDiv(User: User) {
         if (!videoFooter.doesthumbexist(User.peerid)) {
             let newvid = document.createElement("video")
@@ -61,6 +43,5 @@ export class videoFooter {
         document.getElementById(`video-thumb-${Userid}`).remove()
     }
     constructor() {
-        Events.gotSelfMedia.attach(videoFooter.CreateUserDiv)
     }
 }
