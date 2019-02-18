@@ -7,6 +7,7 @@ export interface selfmadeArgs{
   
 }
 export class Events{
+  static calluser: tsevents.SyncEvent<User> =new tsevents.SyncEvent<User>();
   static selfmadeEvent: tsevents.AsyncEvent<Self> = new tsevents.AsyncEvent<Self>();
   /**
    * User joined the chat room

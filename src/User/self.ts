@@ -7,7 +7,7 @@ export class Self extends User {
             audio:false,
             video:{
                 width:1280,
-                height:720
+                height:720,
             }
         })
         promise.then(function(mstream: MediaStream){
@@ -23,10 +23,9 @@ export class Self extends User {
     constructor() {
         super();
         this.name="ej"
-        this.getmedia();
-        Events.SelfCreated.post(this)
         Events.connectedToPeerJSServers.attach((id:string)=>{
             this.peerid=id;
+            this.getmedia();
             console.log(`my id is ${this.peerid}`)
             Events.JoinRoom.post(this)
         })

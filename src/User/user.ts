@@ -2,7 +2,7 @@ import { videoFooter } from "../footerbar";
 
 
 export class User {
-    mediaconnection:PeerJs.MediaConnection =null;
+    mediaconnection:PeerJs.MediaConnection;
     name: string;
     wsid: string;
     peerid: string;

@@ -23,7 +23,7 @@ export class UserManager {
     userJoined(user: User){
         console.log(`adding user to users array ${user}`)
         UserManager.users.add(user)
-        peerjsManager.calluser(user)
+        Events.calluser.post(user);
         // Events
         //this.adduser(user)
     }

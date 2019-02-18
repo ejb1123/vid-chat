@@ -3,6 +3,7 @@ import { Events } from "./event-manager";
 import { User } from "./User/user";
 import { peerjsManager } from "./peerjs-manager";
 import { UserManager } from "./UserManager";
+import { Self } from "./User/self";
 
 let s: SocketIOClient.Socket;
 
@@ -10,18 +11,20 @@ let s: SocketIOClient.Socket;
 export class SocketManager {
 
     constructor() {
-        s = connect();
-        s.on("userjoined", (user: string) => {
-            let luser = JSON.parse(user)
-            console.log("user joined socket")
-            //Events.userJoinedEvent.post(luser)
-        })
+        
+        Events.gotSelfMedia.attach((self:Self)=>{
+            s = connect();
+        // s.on("userjoined", (user: string) => {
+        //     let luser = JSON.parse(user)
+        //     console.log("user joined socket")
+        //     //Events.userJoinedEvent.post(luser)
+        // })
         s.on("userleft", (user: string) => {
             let luser = JSON.parse(user)
             Events.userLeftEvent.post(luser)
         })
         s.on("existingUsers", (usersstring:string) => {
-            let users = JSON.parse(usersstring)
+            let users = <User[]>JSON.parse(usersstring)
             console.log(users)
             for (let index = 0; index < users.length; index++) {
                 const user = users[index];
@@ -29,6 +32,7 @@ export class SocketManager {
                     Events.NewExistingUser.post(user)
                 }
             }
+        })
         })
         /**
          * Called When user is connected to peerjs server and is ready to comunicate with main WS server
