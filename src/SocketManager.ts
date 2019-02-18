@@ -5,13 +5,14 @@ import { peerjsManager } from "./peerjs-manager";
 import { UserManager } from "./UserManager";
 import { Self } from "./User/self";
 
-let s: SocketIOClient.Socket;
 
 
 export class SocketManager {
+    static s: SocketIOClient.Socket;
+
     connect(res) {
-        s = connect();
-        s.on("existingUsers", (usersstring: string) => {
+        SocketManager.s = connect();
+        SocketManager.s.on("existingUsers", (usersstring: string) => {
             let users = <User[]>JSON.parse(usersstring)
             console.log(users)
             for (let index = 0; index < users.length; index++) {
