@@ -17,7 +17,7 @@ export class UserManager {
     Self: User;
     static users = new Collections.Set<User>();
     
-    userJoined(user: User){
+    addUser(user: User){
         console.log(`adding user to users array ${user}`)
         UserManager.users.add(user)
         Events.calluser.post(user);

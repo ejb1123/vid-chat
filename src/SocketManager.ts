@@ -15,12 +15,7 @@ export class SocketManager {
         SocketManager.s.on("existingUsers", (usersstring: string) => {
             let users = <User[]>JSON.parse(usersstring)
             console.log(users)
-            for (let index = 0; index < users.length; index++) {
-                const user = users[index];
-                if (user.peerid != peerjsManager.localpeerjs.id) {
-                    
-                }
-            }
+            res(users)
         })
     }
     constructor() {

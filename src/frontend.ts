@@ -8,7 +8,7 @@ import { UserMedia } from "./usermedia";
 new Events();
 new UserMedia();
 new videoFooter();
-new SocketManager();
+var socketmanager = new SocketManager();
 let peerjsmanager = new peerjsManager();
 let userman: UserManager = new UserManager();
 const getmediapromise = new Promise((resolve) => {
@@ -20,7 +20,7 @@ const createselfpromise = new Promise((resolve) => {
 })
 
 const getUserList = new Promise((resolve)=>{
-  
+  socketmanager.connect(resolve);
 })
 
 getmediapromise.then(
@@ -28,5 +28,7 @@ getmediapromise.then(
 ).then((res) => {
   return createselfpromise
 }).then((res)=>{
-
+  return getUserList
+}).then((res)=>{
+  
 })
