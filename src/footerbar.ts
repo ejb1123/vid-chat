@@ -20,11 +20,12 @@ export class videoFooter {
             globalvid.play();
         }
     }
-    static CreateUserDiv(User: User) {
-        if (!videoFooter.doesthumbexist(User.peerid)) {
+    static CreateUserDivbyid(UserID: string,stream:MediaStream) {
+        if (!videoFooter.doesthumbexist(UserID)) {
             let newvid = document.createElement("video")
             newvid.className = "footer-video"
-            newvid.srcObject = User.mediastream;
+            newvid.id=`video-thumb-${UserID}`
+            newvid.srcObject = stream;
             newvid.onclick=(ev: MouseEvent)=>{
                 videoFooter.setglobalvideo(<MediaStream>newvid.srcObject)
             }
@@ -37,8 +38,27 @@ export class videoFooter {
             throw ("vid already exits")
         }
     }
-    RemoveUserDiv(Userid: string) {
-
+    static CreateUserDiv(User: User) {
+        if (!videoFooter.doesthumbexist(User.peerid)) {
+            let newvid = document.createElement("video")
+            newvid.className = "footer-video"
+            newvid.id=`video-thumb-${User.peerid}`
+            newvid.srcObject = User.mediastream;
+            newvid.onclick=(ev: MouseEvent)=>{
+                videoFooter.setglobalvideo(<MediaStream>newvid.srcObject)
+            }
+            newvid.onloadedmetadata = (e) => {
+                newvid.play();
+            }
+            
+            document.getElementById('thumbbar').append(newvid);
+        }
+        else {
+            throw ("vid already exits")
+        }
+    }
+    static RemoveUserDiv(Userid: string) {
+        document.getElementById(`video-thumb-${Userid}`).remove()
     }
     constructor() {
         Events.gotSelfMedia.attach(videoFooter.CreateUserDiv)
