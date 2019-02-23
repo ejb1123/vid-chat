@@ -1,24 +1,23 @@
 import 'peerjs'
-import { Self } from './User/self';
 import { Events } from './event-manager';
 import { User } from './User/user';
 import { videoFooter } from './footerbar';
 import { Stream } from 'stream';
 import { UserManager } from './UserManager';
+import { UserMedia } from './usermedia';
 export class peerjsManager {
   static localpeerjs: PeerJs.Peer
-  static localpeerjsMedia: MediaStream
 
   calluser(user: User) {
     {
-      var tt = peerjsManager.localpeerjs.call(user.peerid, peerjsManager.localpeerjsMedia)
+      var tt = peerjsManager.localpeerjs.call(user.peerid, UserMedia.localMediastream)
       console.log(`Calling ${user.peerid}`)
       tt.on("stream", (stream: any) => {
         user.mediastream = stream
         videoFooter.CreateUserDiv(user)
       })
       tt.on("close", () => {
-        videoFooter.RemoveUserDiv(user.peerid)
+        videoFooter.RemoveUserDiv(user)
       })
     }
 
@@ -29,11 +28,11 @@ export class peerjsManager {
   }
   incomingCall(mediaConnection: PeerJs.MediaConnection) {
     console.log("imcoming user call")
-    if (peerjsManager.localpeerjsMedia == null) {
+    if (UserMedia.localMediastream == null) {
       mediaConnection.answer(null)
     }
     else {
-      mediaConnection.answer(peerjsManager.localpeerjsMedia)
+      mediaConnection.answer(UserMedia.localMediastream)
     }
     let user = UserManager.findUserbyID(mediaConnection.peer)
     if (user == null) {
@@ -45,16 +44,17 @@ export class peerjsManager {
       })
     }
     mediaConnection.on("close", () => {
-      videoFooter.RemoveUserDiv(mediaConnection.peer)
+      videoFooter.RemoveUserDiv(user)
     })
 
   }
   connect(stream:MediaStream) {
-    peerjsManager.localpeerjs = new Peer(null);
-    peerjsManager.localpeerjs.on("call", this.incomingCall)
-    peerjsManager.localpeerjs.on('open', (id: string) => {
-      Events.calluser.attach((user: User) => {
-        this.calluser(user)
+    return new Promise((resolve,reject)=>{
+      peerjsManager.localpeerjs = new Peer(null);
+      peerjsManager.localpeerjs.on("call", this.incomingCall)
+      peerjsManager.localpeerjs.on('open', (id: string) => {
+        console.log("peerjs onnected")
+        resolve()
       })
     })
   }

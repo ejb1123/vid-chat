@@ -13,30 +13,22 @@ var socketmanager = new SocketManager();
 let peerjsmanager = new peerjsManager();
 let userman: UserManager = new UserManager();
 
-const getusermediapromise = new Promise((resolve) => {
-  UserMedia.getmedia(resolve);
-})
-
-const createselfpromise = new Promise((resolve) => {
-  userman.createSelf(resolve);
-})
-
-const getUserList = new Promise((resolve)=>{
-  resolve()
-  socketmanager.connect(resolve);
-})
-const initpeerjs = new Promise((resolve)=>{
-  resolve()
-  socketmanager.connect(resolve);
-})
-
-
-getusermediapromise.then(
-  (stream: MediaStream) => { peerjsmanager.connect(stream) }
-).then((res) => {
-  return createselfpromise
-}).then((res)=>{
-  return getUserList
-}).then((res:User[])=>{
-  userman.addUsers(res)
-})
+UserMedia.getmedia()
+  .then(
+    (stream: MediaStream) => {
+      UserMedia.localMediastream = stream;
+      return peerjsmanager.connect(stream)
+    }
+  ).catch((err: any) => {
+    console.error(err)
+  })
+  .then(socketmanager.connect)
+  .then(userman.createSelf)
+  .then(socketmanager.joinRoom)
+  .then(socketmanager.getUserList)
+  .then((res: User[]) => {
+    userman.addUsers(res)
+  })
+  .then(()=>{
+    socketmanager.emitReadytobecalled()
+  })

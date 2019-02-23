@@ -1,26 +1,47 @@
 var sio = require('socket.io');
 
+function removecurrentUser(wsid, users) {
+  for (let index = 0; index < users.length; index++) {
+    const element = users[index];
+    if (element.wsid == wsid) {
+      users.splice(index, 1);
+    }
+  }
+  return users;
+}
+
 module.exports = function (server) {
   var io = sio.listen(server);
-  
-  users=[];
+
+  users = [];
   io.on('connection', function (socket) {
     console.log('a user connected');
-    socket.on('joinedroom', (User) => {
-      users.push(JSON.parse(User))
-      socket.emit('existingUsers',JSON.stringify(users));
-      console.log("new id " + JSON.parse(User).peerid);
-     // socket.broadcast.emit("userjoined", User);
-      
-      socket.on("disconnect",()=>{
-        for (let index = 0; index < users.length; index++) {
-          const user = users[index];
-          if(user.wsid==socket.id){
-          console.log("removing"+ socket.id);
-          users.splice(index, 1);
-          }
-        }
-      })
+    socket.on('requestusers', () => {
+      socket.emit('existingUsers', JSON.stringify(users));
     });
+
+    socket.on('joinroom', (User) => {
+      user = JSON.parse(User);
+      user.wsid = socket.id;
+      users.push(user);
+      console.log("new id " + user.peerid);
+      socket.emit("joinsuccess");
+    });
+    
+    socket.on("disconnect", () => {
+      for (let index = 0; index < users.length; index++) {
+        const user = users[index];
+        if (user.wsid == socket.id) {
+          console.log("removing " + socket.id);
+          users.splice(index, 1);
+        }
+      }
+    });
+
+    socket.on('callme', (user) => {
+      luser = JSON.parse(user);
+      console.log(`call user ${luser.peerid}`);
+    });
+
   });
 }
