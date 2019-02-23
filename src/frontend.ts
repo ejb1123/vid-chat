@@ -17,22 +17,25 @@ UserMedia.getmedia()
   .then(
     (stream: MediaStream) => {
       UserMedia.localMediastream = stream;
-      return peerjsmanager.connect(stream)
+      return peerjsmanager.connect()
+    },(reject)=>{
+      UserMedia.localMediastream=new MediaStream()
+      console.log(reject)
+      return peerjsmanager.connect()
     }
-  ).catch((err: any) => {
-    console.error(err)
-    UserMedia.localMediastream=new MediaStream()
-    return(peerjsmanager.connect(UserMedia.localMediastream))
-  })
+  )
   .then(socketmanager.connect)
   .then(userman.createSelf)
   .then(socketmanager.joinRoom)
   .then(socketmanager.getUserList)
   .then((res: User[]) => {
     userman.addUsers(res)
-  }).then(()=>{
-    videoFooter.CreateUserDiv(UserManager.Self)
   })
   .then(()=>{
     socketmanager.emitReadytobecalled()
+  }).then(()=>{
+    //videoFooter.CreateUserDiv(UserManager.Self)
+  }).catch((err)=>{
+    console.log(err)
+    throw err
   })

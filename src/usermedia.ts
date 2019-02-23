@@ -1,5 +1,5 @@
 export class UserMedia {
-  static localMediastream = null;
+  static localMediastream: MediaStream = null;
   static getmedia() {
 
     return navigator.mediaDevices.getUserMedia({

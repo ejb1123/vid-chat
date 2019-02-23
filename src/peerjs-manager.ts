@@ -23,29 +23,34 @@ export class peerjsManager {
     }
   }
   incomingCall(mediaConnection: PeerJs.MediaConnection) {
-    console.log("imcoming user call")
+    console.log(`imcoming user call from ${mediaConnection.peer}`)
     mediaConnection.answer(UserMedia.localMediastream)
 
-    let user = UserManager.findUserbyID(mediaConnection.peer)
-    if (user == null) {
+    let guser = UserManager.findUserbyID(mediaConnection.peer)
+    if (guser == null) {
       SocketManager.requestUserData(mediaConnection.peer).then(
         (user: User) => {
-          user = UserManager.addNewUser(user)
-          user.mediaconnection = mediaConnection
+          guser = UserManager.addNewUser(user)
+          guser.mediaconnection = mediaConnection
         })
     }
 
     mediaConnection.on("stream", (Stream: MediaStream) => {
-      user.mediastream = Stream
-      videoFooter.CreateUserDiv(user)
+      if(Stream==null){
+        console.log("stream is null")
+      }else{
+        console.log(guser)
+        guser.mediastream = Stream
+        videoFooter.CreateUserDiv(guser)
+      }
     })
 
     mediaConnection.on("close", () => {
-      videoFooter.RemoveUserDiv(user)
+      videoFooter.RemoveUserDiv(guser)
     })
 
   }
-  connect(stream: MediaStream) {
+  connect() {
     return new Promise((resolve, reject) => {
       peerjsManager.localpeerjs = new Peer(null);
       peerjsManager.localpeerjs.on("call", this.incomingCall)

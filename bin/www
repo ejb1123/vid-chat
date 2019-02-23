@@ -11,6 +11,7 @@ var Users =[]
 var app = require('../app');
 var debug = require('debug')('video-chat:server');
 var http = require('http');
+var https = require('https');
 
 /**
  * Get port from environment and store in Express.
@@ -22,8 +23,15 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
+// if(app.get('env'=='development')){
+  /*
+  var selfsigned = require('selfsigned');
+  var attrs = [{ name: 'commonName', value: 'contoso.com' }];
+  pems = selfsigned.generate(attrs,{days:365});
+  var server = https.createServer({key:pems.private,cert:pems.cert},app);*/
 
-var server = http.createServer(app);
+  var server = http.createServer(app);
+
 var io = require('../socketio')(server);
 /**
  * Listen on provided port, on all network interfaces.

@@ -16,13 +16,17 @@ module.exports = function (server) {
   users = [];
   io.on('connection', function (socket) {
     console.log('a user connected');
-    socket.on('requestusers', () => {
-      socket.emit('existingUsers', JSON.stringify(users));
+
+    socket.on('requestusers', (fn) => {
+      let nusers = users.slice();
+      
+      nusers = removecurrentUser(socket.id,nusers);
+      console.log(nusers)
+      fn(JSON.stringify(nusers));
     });
 
     socket.on('joinroom', (User) => {
       user = JSON.parse(User);
-      user.wsid = socket.id;
       users.push(user);
       console.log("new id " + user.peerid);
       socket.emit("joinsuccess");

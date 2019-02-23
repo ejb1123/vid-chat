@@ -3,7 +3,7 @@ import { User } from "./User/user";
 
 export class videoFooter {
     static GetUserDiv(user: User): HTMLVideoElement {
-        return <HTMLVideoElement> document.getElementById(`video-thumb-${user.peerid}`)
+        return <HTMLVideoElement>document.getElementById(`video-thumb-${user.peerid}`)
     }
     static doesthumbexist(user: User): boolean {
         let newvid = this.GetUserDiv(user)
@@ -21,23 +21,33 @@ export class videoFooter {
         }
     }
     static CreateUserDiv(user: User) {
-        if (!videoFooter.doesthumbexist(user)) {
-            let newvid = <HTMLVideoElement> document.createElement("video")
-            newvid.className = "footer-video"
-            newvid.id = `video-thumb-${user.peerid}`
-            newvid.srcObject = user.mediastream;
-            newvid.onclick = (ev: MouseEvent) => {
-                videoFooter.setglobalvideo(user)
-            }
-            newvid.onloadedmetadata = (e) => {
-                newvid.play();
-            }
+        if (user.mediastream == null) {
+            console.log("mediasteam null")
+        }
+        else
+            if (!videoFooter.doesthumbexist(user)) {
 
-            document.getElementById('thumbbar').append(newvid);
-        }
-        else {
-            throw ("vid already exits")
-        }
+                let insertvid = document.createElement("video")
+                insertvid.className = "footer-video"
+                insertvid.id = `video-thumb-${user.peerid}`
+                insertvid.srcObject = user.mediastream;
+                insertvid.onclick = (ev: MouseEvent) => {
+                    videoFooter.setglobalvideo(user)
+                }
+
+                document.getElementById('thumbbar').append(insertvid);
+                insertvid.onloadedmetadata = (e: Event) => {
+                    insertvid.oncanplay = ((ev: Event) => {
+                        insertvid.play().catch((err) => {
+                            console.error(err)
+                            throw err
+                        });
+                    })
+                }
+            }
+            else {
+                throw ("vid already exits")
+            }
     }
     static RemoveUserDiv(user: User) {
         document.getElementById(`video-thumb-${user.peerid}`).remove()

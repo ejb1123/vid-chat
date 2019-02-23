@@ -34,12 +34,6 @@ export class UserManager {
         }
     }
 
-    addUser(user: User){
-        console.log(`adding user to users array ${user}`)
-        UserManager.users.add(user)
-        //Events.calluser.post(user);
-     
-    }
 
     createSelf(){
         return new Promise((resolve,reject)=>{
