@@ -27,7 +27,7 @@ module.exports = function (server) {
       console.log("new id " + user.peerid);
       socket.emit("joinsuccess");
     });
-    
+
     socket.on("disconnect", () => {
       for (let index = 0; index < users.length; index++) {
         const user = users[index];
@@ -37,10 +37,20 @@ module.exports = function (server) {
         }
       }
     });
+    socket.on('requestuserdata', (peerid,fn) => {
+      console.log("requesting data");
+      for (let index = 0; index < users.length; index++) {
+        const user = users[index];
+        if (user.peerid == peerid) {
+          fn(JSON.stringify(user));
+        }
 
+      }
+    });
     socket.on('callme', (user) => {
       luser = JSON.parse(user);
       console.log(`call user ${luser.peerid}`);
+      socket.broadcast.emit('calluser', luser.peerid);
     });
 
   });

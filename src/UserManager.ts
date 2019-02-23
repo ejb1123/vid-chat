@@ -16,6 +16,13 @@ export class UserManager {
         })
         return luser;
     }
+    static addNewUser(user:User):User{
+        let nuser=new User()
+        nuser.name=user.name
+        nuser.peerid=user.peerid
+        this.users.add(nuser)
+        return nuser
+    }
     static Self: User;
     static users = new Collections.Set<User>();
     

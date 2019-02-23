@@ -21,6 +21,8 @@ UserMedia.getmedia()
     }
   ).catch((err: any) => {
     console.error(err)
+    UserMedia.localMediastream=new MediaStream()
+    return(peerjsmanager.connect(UserMedia.localMediastream))
   })
   .then(socketmanager.connect)
   .then(userman.createSelf)
@@ -28,6 +30,8 @@ UserMedia.getmedia()
   .then(socketmanager.getUserList)
   .then((res: User[]) => {
     userman.addUsers(res)
+  }).then(()=>{
+    videoFooter.CreateUserDiv(UserManager.Self)
   })
   .then(()=>{
     socketmanager.emitReadytobecalled()

@@ -1,4 +1,5 @@
 import { videoFooter } from "../footerbar";
+import { Events } from "../event-manager";
 
 
 export class User {
@@ -11,7 +12,8 @@ export class User {
         videoFooter.GetUserDiv(this)
     }
     call()  {
-        
+        console.log(`calling ${this.peerid}`)
+        Events.calluser.post(this)
     };
     
     constructor() {
