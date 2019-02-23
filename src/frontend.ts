@@ -34,7 +34,7 @@ UserMedia.getmedia()
   .then(()=>{
     socketmanager.emitReadytobecalled()
   }).then(()=>{
-    //videoFooter.CreateUserDiv(UserManager.Self)
+    videoFooter.CreateUserDiv(UserManager.Self)
   }).catch((err)=>{
     console.log(err)
     throw err

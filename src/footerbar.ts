@@ -35,15 +35,13 @@ export class videoFooter {
                     videoFooter.setglobalvideo(user)
                 }
 
-                document.getElementById('thumbbar').append(insertvid);
                 insertvid.onloadedmetadata = (e: Event) => {
-                    insertvid.oncanplay = ((ev: Event) => {
-                        insertvid.play().catch((err) => {
-                            console.error(err)
-                            throw err
-                        });
-                    })
+                    insertvid.play().catch((err) => {
+                        console.error(err)
+                        throw err
+                    });
                 }
+                document.getElementById('thumbbar').append(insertvid);
             }
             else {
                 throw ("vid already exits")
