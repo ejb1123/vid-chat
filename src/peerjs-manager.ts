@@ -32,8 +32,21 @@ export class peerjsManager {
         (user: User) => {
           guser = UserManager.addNewUser(user)
           guser.mediaconnection = mediaConnection
+          mediaConnection.on("stream", (Stream: MediaStream) => {
+            if(Stream==null){
+              console.log("stream is null")
+            }else{
+              console.log(guser)
+              guser.mediastream = Stream
+              videoFooter.CreateUserDiv(guser)
+            }
+          })
+      
+          mediaConnection.on("close", () => {
+            videoFooter.RemoveUserDiv(guser)
+          })
         })
-    }
+    }else{
 
     mediaConnection.on("stream", (Stream: MediaStream) => {
       if(Stream==null){
@@ -48,11 +61,17 @@ export class peerjsManager {
     mediaConnection.on("close", () => {
       videoFooter.RemoveUserDiv(guser)
     })
+  }
 
   }
   connect() {
     return new Promise((resolve, reject) => {
-      peerjsManager.localpeerjs = new Peer(null);
+      let options: PeerJs.PeerJSOption = {config:{
+        iceServers: [
+          {urls:'turn:chat.chrobi.me:3478',username:"test",credentialType:"password",credential:"test1"},
+          {urls:'stun:stun.l.google.com:19302'}]
+      }}
+      peerjsManager.localpeerjs = new Peer(options);
       peerjsManager.localpeerjs.on("call", this.incomingCall)
       peerjsManager.localpeerjs.on('open', (id: string) => {
         console.log("peerjs onnected")
