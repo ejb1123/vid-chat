@@ -31,6 +31,7 @@ export class videoFooter {
                 insertvid.className = "footer-video"
                 insertvid.id = `video-thumb-${user.peerid}`
                 insertvid.srcObject = user.mediastream;
+                insertvid.autoplay=true
                 insertvid.onclick = (ev: MouseEvent) => {
                     videoFooter.setglobalvideo(user)
                 }
