@@ -3,11 +3,11 @@ module.exports.passport = require('passport')
 module.exports.init = (passportInstance) => {
     passportInstance.use(new OAuth2Strategy(
         {
-            authorizationURL: '',
-            tokenURL: '',
-            clientID: '',
+            authorizationURL: 'https://discordapp.com/api/oauth2/authorize	',
+            tokenURL: 'https://discordapp.com/api/oauth2/token',
+            clientID: '552296828251537411',
             clientSecret: '',
-            callbackURL: ''
+            callbackURL: 'https://home.chrobi.me/auth/provider/callback'
         }, (accessToken, refreshToken, profile, done) => {
 
         }
@@ -19,5 +19,6 @@ module.exports.routeSetup = (app, passportInstance) => {
         passportInstance.authenticate('provider', {
             successRedirect: '/',
             failureRedirect: '/login'
-        }));
+        })
+    );
 }
