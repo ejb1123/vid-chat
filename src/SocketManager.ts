@@ -5,14 +5,13 @@ import { peerjsManager } from "./peerjs-manager";
 import { UserManager } from "./UserManager";
 
 
-declare var __HOST__ :string;
 export class SocketManager {
     static s: SocketIOClient.Socket;
     connect() {
 
         return new Promise((resolve: any, reject: any) => {
             console.log("cpnnect")
-            SocketManager.s = io(__HOST__, { autoConnect: false })
+            SocketManager.s = io(process.env.__HOST__, { autoConnect: false })
             SocketManager.s.once("connect", (socket) => {
                 console.log("socket.io connected")
                 resolve()

@@ -3,11 +3,11 @@ module.exports.passport = require('passport')
 module.exports.init = (passportInstance) => {
     passportInstance.use(new OAuth2Strategy(
         {
-            authorizationURL: 'https://discordapp.com/api/oauth2/authorize	',
-            tokenURL: 'https://discordapp.com/api/oauth2/token',
-            clientID: '552296828251537411',
-            clientSecret: '',
-            callbackURL: 'https://home.chrobi.me/auth/provider/callback'
+            authorizationURL: process.env.authorizationURL,
+            tokenURL: process.env.tokenURL,
+            clientID: process.env.clientID,
+            clientSecret: process.env.clientSecret,
+            callbackURL: process.env.callbackURL
         }, (accessToken, refreshToken, profile, done) => {
 
         }
