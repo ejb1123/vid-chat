@@ -4,11 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require("express-session"),
-    bodyParser = require("body-parser");
+  bodyParser = require("body-parser");
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var passport = require('./passport')
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,22 +21,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:'sahjkdash'}));
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(session({ secret: 'sahjkdash' }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.passport.initialize());
 app.use(passport.passport.session());
 passport.init(passport.passport);
-passport.routeSetup(app,passport.passport)
+passport.routeSetup(app, passport.passport)
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -43,5 +45,20 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+if (process.env.MODE == 'development') {
+  var webpack = require('webpack');
+  var webpackDevMiddleware = require('webpack-dev-middleware');
+
+  var config = require('./webpack.dev.config.js');
+  var compiler = webpack(config);
+
+  // Tell express to use the webpack-dev-middleware and use the webpack.config.js
+  // configuration file as a base.
+  app.use(webpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+    writeToDisk:true
+  }));
+}
 
 module.exports = app;

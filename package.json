@@ -5,7 +5,8 @@
   "scripts": {
     "build-dev": "webpack --config webpack.dev.config.js",
     "build-prod": "webpack --config webpack.prod.config.js",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start-webpack": "webpack-dev-server --open"
   },
   "dependencies": {
     "@types/peerjs": "0.0.30",
@@ -40,6 +41,8 @@
     "typescript": "^3.3.3",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
+    "webpack-dev-middleware": "^3.6.1",
+    "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.2.1"
   }
 }

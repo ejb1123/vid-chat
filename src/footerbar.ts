@@ -10,7 +10,7 @@ export class videoFooter {
         if (newvid == null) {
             return false
         } else {
-            return true
+            return true 
         }
     }
     static setglobalvideo(user: User) {
